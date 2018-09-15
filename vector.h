@@ -1,6 +1,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+
+
 template <typename Tr>
 class Vector {
     public:
@@ -13,17 +15,31 @@ class Vector {
 
         int dimensions;
         int* dimensionSizes;
+        Operation cnvt;
 
     public:
         Vector() : data(nullptr) {};
              
         Vector(int dimensions, int* dimensionSizes) : dimensions(dimensions), dimensionSizes(dimensionSizes) {
-            // TODO
+            for (int i = 0; i < dimensions; ++i)
+            {
+                dataSize *= *dimensionSizes;
+                dimensionSizes++;
+            }
+            data = new T[dataSize]; 
         }
              
-        void set(T datum, int* coordinates); // TODO
+        void set(T datum, int* coordinates){
+            int position = cnvt(coordinates,dimensionSizes,dimensions);
+            T* temp = data+position;
+            *temp = datum;
+        }
              
-        T get(int* coordinates); // TODO
+        T get(int* coordinates){
+            int position = cnvt(coordinates,dimensionSizes,dimensions);
+            T* temp = data+position;
+            return *temp;            
+        }
 };
 
 #endif
